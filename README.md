@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="nlw" title="Next Level Week" src="images/1440x900.jpg" />
+    <img alt="nlw" title="Next Level Week" src="images/cabecalho-nlw.jpg" />
 </h1>
 <h2 align="center">
   Next Level Week
@@ -7,7 +7,7 @@
 
 ---
 
-Curso nwl [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora codar
+Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora codar
 
 ---
 
