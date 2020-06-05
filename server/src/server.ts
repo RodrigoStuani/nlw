@@ -2,6 +2,8 @@ import express, { request, response } from 'express';
 
 const app = express();
 
+app.use(express.json());
+
 // A rota é o endereço completo da requisição.
 // Recurso: Qual entidade estamos acessando do sistema.
 // GET: Busca uma ou mais informações do back-end.
@@ -12,6 +14,9 @@ const app = express();
 // POST https://localhost:3030/users = Cria um novo usuário.
 // GET https://localhost:3030/users = Mostra lista de usuário.
 // GET https://localhost:3030/users/3 = Buscar dados de um usuário específico. 
+
+// Query Param: São parametros que vem na propria rota geralmente opcionais para filtros, paginação.
+// Request Body: Parametros para criação/atualização de informações do usuário.
 const users = [
     "Rodrigo",
     "Thatiani",
@@ -20,12 +25,16 @@ const users = [
 ];
 
 app.get('/users', (request, response) => {
-    console.log('Listagem de usuários.');
-    return response.json(users);    
+    const search = String(request.query.search);
+    const filterUsers = search ? users.filter(user => user.includes(search)) : users;
+
+    console.log(search);
+    return response.json(filterUsers);    
 });
 
 app.get('/users/:id', (request, response) => {
-    const id = Number(request.params.id);
+    // Request Param: São parametros que vem na própria rota que identificam um recurso
+    const id = Number(request.params.id);    
 
     const user = users[id];
     return response.json(user);
@@ -33,12 +42,13 @@ app.get('/users/:id', (request, response) => {
 
 // Rota de criação de um usuário
 app.post('/users', (request, response) => {
+    const data = request.body; 
+    console.log(data);
     const user = {
-        nome: 'Covid',
-        sobrenome: '19',
-        email: 'covid19@aprendizado.com.br'
+        nome: data.name,
+        email: data.email
     }    
     return response.json(user);
 });
 
-app.listen(3030);
+app.listen(9090);
