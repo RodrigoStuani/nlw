@@ -4,19 +4,6 @@ const app = express();
 
 app.use(express.json());
 
-// A rota é o endereço completo da requisição.
-// Recurso: Qual entidade estamos acessando do sistema.
-// GET: Busca uma ou mais informações do back-end.
-// POST: cria um nova informação no back-end.
-// PUT: Atualiza, faz um update em uma informação.
-// DELETE: Remover um inforamção do cliente(back-end).
-
-// POST https://localhost:3030/users = Cria um novo usuário.
-// GET https://localhost:3030/users = Mostra lista de usuário.
-// GET https://localhost:3030/users/3 = Buscar dados de um usuário específico. 
-
-// Query Param: São parametros que vem na propria rota geralmente opcionais para filtros, paginação.
-// Request Body: Parametros para criação/atualização de informações do usuário.
 const users = [
     "Rodrigo",
     "Thatiani",
