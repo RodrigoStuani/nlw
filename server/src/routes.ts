@@ -1,9 +1,16 @@
-import express from 'express';
+import express, { request, response } from 'express';
 
-const routes = express();
+import PointsController from './controllers/PointsController';
+import ItemsController from './controllers/ItemsController';
 
-routes.get('/', (request, response) => {
-    return response.json({message: 'Começando a configurar as rotas de forma diferente e separada.'});    
-});
+const routes = express.Router();
+
+// index, show, store, update, delete.
+const pointsController = new PointsController();
+const itemsController = new ItemsController();
+
+routes.get('/items', itemsController.index);
+
+routes.post('/points', pointsController.create);
 
 export default routes;
