@@ -23,6 +23,12 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
  * Configurando conexão com banco de dados.
  * Identificando as entidades da aplicação.
  * Funcionalidades;
+    - [x]  Cadastro ponto de coleta
+    - [x]  Lista os items de coleta
+    - [x]  Listar pontos (filtro por estado/cidade/items)
+    - [x]  Listar um ponto de coleta especifico
+ * Construção da app.
+ * Implementado cors. 
 
 ### 3ª parte - Front-end web do app;
 
