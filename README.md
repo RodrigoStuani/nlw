@@ -32,6 +32,15 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
 
 ### 3ª parte - Front-end web do app;
 
+ * Limpando estrutura da aplicação
+ * Conceitos:
+    - [x]  `index.html` e `div#root`
+    - [ ]  JSX
+    - [ ]  Componente (Header)
+    - [ ]  Propriedade
+    - [ ]  Estado e imutabilidade 
+
+
 ### 4ª parte - Mobile do app;
 
 ### 5ª parte - Recursos avançados;
