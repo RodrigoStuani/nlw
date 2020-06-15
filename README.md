@@ -35,9 +35,9 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
  * Limpando estrutura da aplicação
  * Conceitos:
     - [x]  `index.html` e `div#root`
-    - [ ]  JSX
-    - [ ]  Componente (Header)
-    - [ ]  Propriedade
+    - [x]  JSX
+    - [x]  Componente (Header)
+    - [x]  Propriedade
     - [ ]  Estado e imutabilidade 
 
 
