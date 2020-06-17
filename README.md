@@ -38,8 +38,16 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
     - [x]  JSX
     - [x]  Componente (Header)
     - [x]  Propriedade
-    - [ ]  Estado e imutabilidade 
+    - [x]  Estado e imutabilidade 
 
+ * Arquivos para download (Layout, imagens e CSS)
+ * Construção do HTML da primeira página
+ * Configuração da navegação
+ * Construção do HTML no formulário
+ * Buscando itens de coleta da API
+ * Buscando estados e cidades do IBGE
+ * Casdastro de ponto de coleta na API
+ * Mensagem de sucesso
 
 ### 4ª parte - Mobile do app;
 
