@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FiArrowLeft} from 'react-icons/fi';
+import {Map, TileLayer, Marker} from 'react-leaflet';
+import api from '../../services/api';
 
 import './style.css';
 import logo from '../../assets/logo.svg';
 
 const CreatePoint = () => {
+    const [items, setItems] = useState([]);
+    
+    useEffect(() => {
+        api.get('items').then(response =>{
+            setItems(response.data);
+        });
+    }, []);
+
     return (
         <div id="page-create-point" >
             <header>
@@ -56,6 +66,14 @@ const CreatePoint = () => {
                         <h2>Endereço</h2>
                         <span>Selecione o endereço no mapa</span> 
                     </legend>
+
+                    <Map center={[-27.6632695, -48.6908038]} zoom={15}> 
+                        <TileLayer
+                            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={[-27.66326954, -48.6908038]} />
+                    </Map>
                     
                     <div className="field-group">
                         <div className="field">
@@ -87,39 +105,45 @@ const CreatePoint = () => {
                     <ul className="items-grid">
                         <li>
                             <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
+                                src="http://localhost:3030/uploads/lampadas.svg" 
+                                alt="Lâmpadas"                                
                             />
+                            <span>Lâmpadas</span>
                         </li>
                         <li className="selected">
                             <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
+                                src="http://localhost:3030/uploads/baterias.svg" 
+                                alt="Pilhas e baterias"
                             />
+                            <span>Pilhas e baterias</span>
+                        </li>
+                        <li>
+                            <img 
+                                src="http://localhost:3030/uploads/papeis-papelao.svg" 
+                                alt="Papéis e papelão"
+                            />
+                            <span>Papéis e papelão</span>
+                        </li>
+                        <li>
+                            <img 
+                                src="http://localhost:3030/uploads/eletronicos.svg" 
+                                alt="Resíduos eletrônicos"
+                            />
+                            <span>Resíduos eletrônicos</span>
+                        </li>
+                        <li>
+                            <img 
+                                src="http://localhost:3030/uploads/organicos.svg"
+                                alt="Resíduos orgânicos"
+                            />
+                            <span>Resíduos orgânicos</span>
                         </li>
                         <li>
                             <img 
                                 src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
+                                alt="Óleo de cozinha"
                             />
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
-                            />
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
-                            />
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Teste"
-                            />
+                            <span>Óleo de cozinha</span>                            
                         </li>
                     </ul>
                 </fieldset>
