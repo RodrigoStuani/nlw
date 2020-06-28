@@ -1,20 +1,139 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import {FiArrowLeft} from 'react-icons/fi';
 import {Map, TileLayer, Marker} from 'react-leaflet';
+import {LeafletMouseEvent} from 'leaflet';
 import api from '../../services/api';
+import axios from 'axios';
 
 import './style.css';
 import logo from '../../assets/logo.svg';
 
+
+// Array ou objeto: manualmente informar o tipo da variavel
+
+interface item {
+    id: number;
+    title: string;
+    image_url: string;
+}
+
+interface ibgeUfResponse {
+    sigla: string;
+}
+
+interface ibgeCityResponse {
+    nome: string;
+}
+
 const CreatePoint = () => {
-    const [items, setItems] = useState([]);
-    
+    const [items, setItems] = useState<item[]>([]);
+    const [ufs, setUfs] = useState<string[]>([]);
+    const [cities, setCities] = useState<string[]>([]);
+    const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0]);
+    const [inputData, setInputData] = useState({
+        name: '',
+        email: '',
+        whatsapp: '',
+    });
+    const [selectedUf, setSelectedUf] = useState("0");    
+    const [selectedCity, setSelectedCity] = useState("0");
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0]);
+
+    const history = useHistory();
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const {latitude, longitude} = position.coords;
+            setInitialPosition([latitude, longitude]);
+        });
+    }, []);
+
     useEffect(() => {
         api.get('items').then(response =>{
             setItems(response.data);
         });
     }, []);
+
+    useEffect(() => {
+        axios.get<ibgeUfResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+        .then(response => {
+            const ufInitials = response.data.map(uf => uf.sigla);
+            setUfs(ufInitials);
+        }) ;
+    }, []);
+
+    useEffect(() => {
+        //Carregar cidade conforme seleção do estados (UF)
+        if (selectedUf === '0') {
+            return;
+        }
+
+        axios.get<ibgeCityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
+        .then(response => {
+            const cityNames = response.data.map(city => city.nome);
+            setCities(cityNames);
+        }) ;
+    }, [selectedUf]);
+
+    function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
+        const uf = event.target.value;
+        setSelectedUf(uf);
+    }
+
+    function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
+        const city = event.target.value;
+        setSelectedCity(city);
+    }
+
+    function handleMapClick(event: LeafletMouseEvent) {
+        setSelectedPosition([
+            event.latlng.lat,
+            event.latlng.lng
+        ]);
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+        const {name, value} = event.target;
+
+        setInputData({...inputData, [name]: value});
+    }
+
+    function handleSelectItem(id: number) {
+        const alredySelected = selectedItems.findIndex(item => item === id);
+
+        if (alredySelected >= 0) {
+            const filteredItems = selectedItems.filter(item => item !== id);
+            setSelectedItems(filteredItems);
+        } else {
+            setSelectedItems([...selectedItems, id]);
+        }        
+    }
+
+    async function handleSubmit(event: FormEvent) {
+        event.preventDefault();
+
+        const {name, email, whatsapp} = inputData;
+        const uf = selectedUf;
+        const city = selectedCity;
+        const [latitude, longitude] = selectedPosition;
+        const items = selectedItems;
+
+        const data = {
+            name,
+            email,
+            whatsapp,
+            uf,
+            city,
+            latitude, 
+            longitude,
+            items
+        }
+        await api.post('points', data);
+        alert('Cadastrado o ponto de coleta.');
+        history.push('/');
+    }
 
     return (
         <div id="page-create-point" >
@@ -26,7 +145,7 @@ const CreatePoint = () => {
                 </Link>
             </header>
 
-            <form >
+            <form onSubmit={handleSubmit}>
                 <h1>Cadastro do <br/> ponto de coleta</h1>
                 <fieldset>
                     <legend>
@@ -38,6 +157,7 @@ const CreatePoint = () => {
                             type="text"
                             name="name"
                             id="name"
+                            onChange={handleInputChange}
                         />
                     </div>
 
@@ -48,6 +168,7 @@ const CreatePoint = () => {
                                 type="email"
                                 name="email"
                                 id="email"
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="field">
@@ -56,6 +177,7 @@ const CreatePoint = () => {
                                 type="text"
                                 name="whatsapp"
                                 id="whatsapp"
+                                onChange={handleInputChange}
                             />
                         </div>
                     </div>
@@ -67,12 +189,12 @@ const CreatePoint = () => {
                         <span>Selecione o endereço no mapa</span> 
                     </legend>
 
-                    <Map center={[-27.6632695, -48.6908038]} zoom={15}> 
+                    <Map center={initialPosition} zoom={15} onClick={handleMapClick}> 
                         <TileLayer
                             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={[-27.66326954, -48.6908038]} />
+                        <Marker position={selectedPosition} />
                     </Map>
                     
                     <div className="field-group">
@@ -80,8 +202,13 @@ const CreatePoint = () => {
                             <label htmlFor="uf">Estado (UF)</label>
                             <select 
                                 name="uf" 
-                                id="uf">
-                                <option value="0">Selecione uma UF</option>        
+                                id="uf"
+                                value={selectedUf}
+                                onChange={handleSelectUf}>
+                                <option value="0">Selecione uma UF</option>
+                                {ufs.map(uf => (
+                                    <option key={uf} value={uf}>{uf}</option>
+                                ))}        
                             </select>
                         </div>
 
@@ -89,8 +216,13 @@ const CreatePoint = () => {
                             <label htmlFor="city">Cidade</label>
                             <select 
                                 name="city" 
-                                id="city">
-                                <option value="0">Selecione uma cidade</option>        
+                                id="city"
+                                value={selectedCity}
+                                onChange={handleSelectCity}>
+                                <option value="0">Selecione uma cidade</option>
+                                {cities.map(city => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}        
                             </select>
                         </div>
                     </div>
@@ -103,48 +235,18 @@ const CreatePoint = () => {
                     </legend>
 
                     <ul className="items-grid">
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/lampadas.svg" 
-                                alt="Lâmpadas"                                
-                            />
-                            <span>Lâmpadas</span>
-                        </li>
-                        <li className="selected">
-                            <img 
-                                src="http://localhost:3030/uploads/baterias.svg" 
-                                alt="Pilhas e baterias"
-                            />
-                            <span>Pilhas e baterias</span>
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/papeis-papelao.svg" 
-                                alt="Papéis e papelão"
-                            />
-                            <span>Papéis e papelão</span>
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/eletronicos.svg" 
-                                alt="Resíduos eletrônicos"
-                            />
-                            <span>Resíduos eletrônicos</span>
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/organicos.svg"
-                                alt="Resíduos orgânicos"
-                            />
-                            <span>Resíduos orgânicos</span>
-                        </li>
-                        <li>
-                            <img 
-                                src="http://localhost:3030/uploads/oleo.svg" 
-                                alt="Óleo de cozinha"
-                            />
-                            <span>Óleo de cozinha</span>                            
-                        </li>
+                        {items.map(item => (
+                            <li key={item.id} 
+                                onClick={() => handleSelectItem(item.id)}
+                                className={selectedItems.includes(item.id) ? 'selected' : ''}
+                            >
+                                <img 
+                                    src={item.image_url} 
+                                    alt={item.title}                                
+                                />
+                                <span>{item.title}</span>
+                            </li>    
+                        ))}
                     </ul>
                 </fieldset>
                 <button 
