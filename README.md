@@ -51,6 +51,14 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
 
 ### 4ª parte - Mobile do app;
 
+ * Instalar Expo-CLI.
+ * Criar projeto com Expo.
+ * Executando projeto.
+ * Configurando [emulador](https://youtu.be/eSjFDWYkdxM) (Caso [necessário](https://github.com/Rocketseat/expo-common-issues))
+ * Diferenças do React Native para ReactJS
+   * Elementos;
+   * Estilização;
+
 ### 5ª parte - Recursos avançados;
 
 ---
