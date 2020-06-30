@@ -14,8 +14,7 @@ export default function App() {
     Ubuntu_700Bold  
   }); 
   if (!fontsLoaded) {
-    return 
-      <AppLoading />
+    return <AppLoading />
   }
 
   return (
