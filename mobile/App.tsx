@@ -17,8 +17,9 @@ export default function App() {
     return <AppLoading />
   }
 
+  // Tag <> fechada sozinha para utilizar com se fosse uma view sem conteúdo.
   return (
-    <>
+    <> 
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <Home />
     </>  
