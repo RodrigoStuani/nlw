@@ -59,6 +59,7 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
    * Elementos;
    * Estilização;
  * Criando página home.
+ * Criado e configurado navegação.
 
 ### 5ª parte - Recursos avançados;
 
