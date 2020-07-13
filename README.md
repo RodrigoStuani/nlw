@@ -58,6 +58,7 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
  * Diferenças do React Native para ReactJS
    * Elementos;
    * Estilização;
+ * Criando página home.
 
 ### 5ª parte - Recursos avançados;
 
