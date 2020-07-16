@@ -8,7 +8,7 @@ class ItemsController {
             return {
                 id: item.id,
                 title: item.title,
-                image_url: `http://localhost:3030/uploads/${item.image}`,
+                image_url: `http://192.168.0.20:3030/uploads/${item.image}`, // Alterar para localhost novamente ou ouutra rota
             };
         });
         return response.json(serializedItems);    
