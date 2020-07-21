@@ -2,7 +2,7 @@ import React from 'react';
 import Constants from 'expo-constants';
 import {Feather as Icon} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {SvgUri} from 'react-native-svg';
 
@@ -24,19 +24,25 @@ const Points = () => {
           <View style={styles.mapContainer}>
             <MapView 
               style={styles.map} //-27.662134,-48.6915996 - Bella vista
-              initialRegion={{
-                latitude: -27.662134,
-                longitude: -48.6915996,
+              initialRegion={{   //-27.586694, -48.522994 - Trindade 
+                latitude: -27.586694,
+                longitude: -48.522994,
                 latitudeDelta: 0.014,
                 longitudeDelta: 0.014, 
               }} 
             >
-              <Marker 
+              <Marker // 1:14
+                style={styles.mapMarker}
                 coordinate={{
-                  latitude: -27.662134,
-                  longitude: -48.6915996 // 1:11:24
-                }} 
-              />              
+                  latitude: -27.586694,
+                  longitude: -48.522994 
+                }}
+              >
+                <View style={styles.mapMarkerContainer}>
+                  <Image style={styles.mapMarkerImage} source={{uri: 'https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60' }} />
+                  <Text style={styles.mapMarkerTitle}>Seu queiroz</Text>
+                </View>
+              </Marker>              
             </MapView>  
           </View>
         </View> 
@@ -47,32 +53,32 @@ const Points = () => {
             contentContainerStyle={{paddingHorizontal: 20 }}  
           >
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/lampadas.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/lampadas.svg" />
               <Text style={styles.itemTitle}>Lâmpadas</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/baterias.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/baterias.svg" />
               <Text style={styles.itemTitle}>Pilhas e baterias</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/papeis-papelao.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/papeis-papelao.svg" />
               <Text style={styles.itemTitle}>Papéis e papelão</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/eletronicos.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/eletronicos.svg" />
               <Text style={styles.itemTitle}>Resíduos eletrônicos</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/organicos.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/organicos.svg" />
               <Text style={styles.itemTitle}>Resíduos orgânicos</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.item} onPress={() => {} }> 
-              <SvgUri width={42} height={42} uri="http://192.168.0.20:3030/uploads/oleo.svg" />
+              <SvgUri width={42} height={42} uri="http://192.168.0.9:3030/uploads/oleo.svg" />
               <Text style={styles.itemTitle}>Óleo de cozinha</Text>
             </TouchableOpacity>
           </ScrollView>
