@@ -1,17 +1,21 @@
 import React from 'react';
 import Constants from 'expo-constants';
-import {Feather as Icon} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
-import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
-import {SvgUri} from 'react-native-svg';
+import { Feather as Icon } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { SvgUri } from 'react-native-svg';
 
 
 const Points = () => {
     const navigation = useNavigation();
 
     function handleNavigateBack() {
-        navigation.goBack(); // Paramos na criação do botão de voltar Rec. 58:24
+      navigation.goBack(); 
+    }
+
+    function handleNavigateToDetail() {
+      navigation.navigate('Detail'); // 01:15:00
     }
     return (
       <>
@@ -33,6 +37,7 @@ const Points = () => {
             >
               <Marker // 1:14
                 style={styles.mapMarker}
+                onPress={handleNavigateToDetail}
                 coordinate={{
                   latitude: -27.586694,
                   longitude: -48.522994 
