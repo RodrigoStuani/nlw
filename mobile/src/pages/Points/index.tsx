@@ -30,7 +30,7 @@ const Points = () => {
             style={styles.map} //-27.662134,-48.6915996 - Bella vista
             initialRegion={{   //-27.586694, -48.522994 - Trindade 
               latitude: -27.662134,
-              longitude: -48.586694,
+              longitude: -48.6915996,
               latitudeDelta: 0.014,
               longitudeDelta: 0.014, 
             }} 
@@ -40,7 +40,7 @@ const Points = () => {
                 onPress={handleNavigateToDetail}
                 coordinate={{
                 latitude: -27.662134,
-                longitude: -48.586694 
+                longitude: -48.6915996 
               }}
             >
               <View style={styles.mapMarkerContainer}>
