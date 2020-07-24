@@ -12,7 +12,7 @@ const Detail = () => {
     navigation.goBack();
   }
 
-  return (
+  return ( // <> -> fragment = é um componente que pode retornar múltiplos elementos. Os Fragmentos permitem agrupar uma lista de filhos sem adicionar nós extras ao DOM.
     <SafeAreaView style={{ flex:1 }}>
       <View style={ styles.container }>
         <TouchableOpacity onPress={ handleNavigateBack }>
@@ -41,7 +41,7 @@ const Detail = () => {
         </RectButton>
       </View>
     </SafeAreaView>
-  ); // 01:16:00 TO BE CONTINUE...
+  );  
 };
 
 const styles = StyleSheet.create({
