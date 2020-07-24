@@ -41,7 +41,7 @@ const Detail = () => {
         </RectButton>
       </View>
     </SafeAreaView>
-  ); 
+  ); // 01:16:00 TO BE CONTINUE...
 };
 
 const styles = StyleSheet.create({

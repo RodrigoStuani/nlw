@@ -15,7 +15,7 @@ const Points = () => {
   }
 
   function handleNavigateToDetail() {
-    navigation.navigate('Detail'); // 01:15:00
+    navigation.navigate('Detail'); 
   }
   return (
     <>

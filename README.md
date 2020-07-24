@@ -66,4 +66,4 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
 
 ---
 
-Made with love by [Rodrigo Stuani](https://github.com/RodrigoStuani) 💙 🚀
+❮❯ with 💙 by [Rodrigo Stuani](https://github.com/RodrigoStuani) 🚀  
