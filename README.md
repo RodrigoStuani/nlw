@@ -61,6 +61,8 @@ Curso NWL [0800](https://nextlevelweek.com/inscricao/1) da Rocketseat ! Bora cod
  * Criando página home.
  * Criado e configurado navegação.
  * Criado página do mapa
+ * Criado página do detalhe
+ * Buscando itens da API
   
 ### 5ª parte - Recursos avançados;
 
