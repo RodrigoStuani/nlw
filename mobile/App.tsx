@@ -12,7 +12,8 @@ export default function App() {
     Roboto_400Regular,
     Roboto_500Medium,
     Ubuntu_700Bold  
-  }); 
+  });   
+
   if (!fontsLoaded) {
     return <AppLoading />
   }
