@@ -14,8 +14,17 @@ interface Item {
   image_url: string;
 }
 
+interface Point {
+  id: number;
+  name: string;
+  image: string;
+  latitude: number;
+  longitude: number;  
+}
+
 const Points = () => {
   const [ items, setItems ] = useState< Item[] >([]);
+  const [ points, setPoints ] = useState< Point[] >([]);
   const [ selectedItems, setSelectedItems ] = useState< number[] >([]);
   const [ initialPosition, setInitialPosition ] = useState< [ number, number ] >( [ 0, 0] );
   const navigation = useNavigation();
@@ -31,7 +40,7 @@ const Points = () => {
       
       const location = await Location.getCurrentPositionAsync();
 
-      const { latitude, longitude } = location.coords;
+      const { latitude, longitude } = location.coords; // 01:41:05
 
       setInitialPosition([
         latitude,
@@ -45,6 +54,19 @@ const Points = () => {
     api.get('items').then(response => {
       setItems(response.data);    
     });
+  }, []);
+
+  useEffect(() => {
+    api.get( 'points', {
+      params: {
+        city: 'Florianópolis',
+        uf: 'SC',
+        items: [ 1, 2]    
+      }
+    }).then( response => {
+      setPoints(response.data);
+    })
+
   }, []);
 
   function handleNavigateBack() {
