@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons';
 import { View, StyleSheet, Image, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import Constants from 'expo-constants';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+import api from '../../services/api'
+
+interface Params {
+  point_id: number;
+}
+
+interface Data { // Declarando interface com primeira letra sempre maiuscula.
+  point: {
+    image: string;
+    name: string;
+    email: string;
+    whatsapp: string;
+    city: string;
+    uf: string;    
+  };
+  items: {
+    title: string;
+  } [];
+}
 
 const Detail = () => {
+  const [ data, setData ] = useState< Data >( {} as Data );
   const navigation = useNavigation();
+  const route = useRoute();
+  const routeParams = route.params as Params; // Criado para assumir os parametros da interface.
+
+  useEffect( () => {
+    api.get( `points/${ routeParams.point_id }`).then( response => {
+      setData( response.data );
+    } );
+  }, [] );
 
   function handleNavigateBack() {
     navigation.goBack();
   }
+
+  if ( !data.point ) {
+    return null;
+  };
 
   return ( // <> -> fragment = é um componente que pode retornar múltiplos elementos. Os Fragmentos permitem agrupar uma lista de filhos sem adicionar nós extras ao DOM.
     <SafeAreaView style={{ flex:1 }}>
@@ -19,14 +51,21 @@ const Detail = () => {
             <Icon name="arrow-left" size={20} color="#34cb79" ></Icon>                
           </TouchableOpacity>
 
-          <Image style={ styles.pointImage } source={{ uri: 'https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60' }} />
+          <Image style={ styles.pointImage } source={{ uri: data.point.image }} />
           
-          <Text style={ styles.pointName } >Mercado do seu Queiroz</Text>
-          <Text style={ styles.pointItems } >Lâmpadas, Óleo de cozinha</Text>
+  <Text style={ styles.pointName } >{ data.point.name }</Text>
+          <Text style={ styles.pointItems } >
+            { data.items.map( item => item.title).join( ', ' ) }
+          </Text>
 
           <View style={ styles.address }>
             <Text style={ styles.addressTitle }>Endereço</Text>
-            <Text style={ styles.addressTitle }>Florianópolis, SC</Text>
+            <Text 
+              style={ styles.addressTitle }
+            >
+              { data.point.city }, 
+              { data.point.uf } 
+            </Text> 
           </View>
       </View>
       <View style={ styles.footer }>
