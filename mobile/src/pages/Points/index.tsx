@@ -73,11 +73,11 @@ const Points = () => {
     navigation.goBack(); 
   }
 
-  function handleNavigateToDetail() {
-    navigation.navigate('Detail'); 
+  function handleNavigateToDetail( id: number ) {
+    navigation.navigate( 'Detail', { point_id: id } ); 
   }
 
-  function handleSelectItem(id: number) {
+  function handleSelectItem( id: number ) {
     const alredySelected = selectedItems.findIndex(item => item === id);
 
     if (alredySelected >= 0) {
@@ -90,18 +90,18 @@ const Points = () => {
 
   return (
     <>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigateBack}>
+      <View style={ styles.container }>
+        <TouchableOpacity onPress={ handleNavigateBack }>
           <Icon name="arrow-left" size={20} color="#34cb79" ></Icon>                
         </TouchableOpacity>
         
-        <Text style={styles.title}>Bem vindo.</Text>
-        <Text style={styles.description}>Encontre no mapa um ponto de coleta.</Text>
+        <Text style={ styles.title }>Bem vindo.</Text>
+        <Text style={ styles.description }>Encontre no mapa um ponto de coleta.</Text>
         
-        <View style={styles.mapContainer}>
+        <View style={ styles.mapContainer }>
           { initialPosition[ 0 ] !== 0 && ( // Condição ternária
             <MapView 
-              style={styles.map} //-27.662134,-48.6915996 - Bella vista
+              style={ styles.map } //-27.662134,-48.6915996 - Bella vista
               loadingEnabled={ initialPosition[ 0 ] === 0}
               initialRegion={{   //-27.586694, -48.522994 - Trindade 
                 latitude: initialPosition[ 0 ],
@@ -110,40 +110,43 @@ const Points = () => {
                 longitudeDelta: 0.014, 
               }} 
             >
-              <Marker 
-                  style={styles.mapMarker}
-                  onPress={handleNavigateToDetail}
+              { points.map( point => (
+                <Marker 
+                  key={ String( point.id ) }
+                  style={ styles.mapMarker }
+                  onPress={ () => handleNavigateToDetail( point.id ) }
                   coordinate={{
-                  latitude: -27.662134,
-                  longitude: -48.6915996 
+                  latitude: point.latitude,
+                  longitude: point.longitude 
                 }}
-              >
-                <View style={styles.mapMarkerContainer}>
-                  <Image style={styles.mapMarkerImage} source={{uri: 'https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60' }} />
-                  <Text style={styles.mapMarkerTitle}>Seu queiroz</Text>
-                </View>
-              </Marker>              
+                >
+                  <View style={ styles.mapMarkerContainer }>
+                    <Image style={ styles.mapMarkerImage } source={{ uri: point.image }} />
+                    <Text style={ styles.mapMarkerTitle }> { point.name } </Text>
+                  </View>
+                </Marker>              
+              ) ) }
             </MapView>
           ) }
         </View>
       </View> 
-      <View style={styles.itemsContainer}>
+      <View style={ styles.itemsContainer }>
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{paddingHorizontal: 20 }}  
+          contentContainerStyle={{ paddingHorizontal: 20 }}  
         >
           {items.map( item => (
             <TouchableOpacity 
               key={ String( item.id )} 
               style={ [
                 styles.item,
-                selectedItems.includes(item.id) ? styles.selectedItem : {}
+                selectedItems.includes( item.id ) ? styles.selectedItem : {}
               ] } 
               onPress={ () => handleSelectItem( item.id )}
               activeOpacity={ 0.6 }
             > 
-              <SvgUri width={42} height={42} uri={item.image_url} />
+              <SvgUri width={42} height={42} uri={ item.image_url } />
               <Text style={ styles.itemTitle }>{ item.title }</Text>
             </TouchableOpacity>
           ))} 
