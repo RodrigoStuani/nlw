@@ -8,7 +8,7 @@ class ItemsController {
             return {
                 id: item.id,
                 title: item.title,
-                image_url: `http://192.168.0.20:3030/uploads/${item.image}`,
+                image_url: `http://192.168.0.9:3030/uploads/${item.image}`,
             }// Ajusta para http://192.168.0.20 quando for na palhoça.     
         });  // Ajusta para http://192.168.0.9 quando for na trindade.
         return response.json(serializedItems);    
